@@ -58,15 +58,25 @@ swap is based on the selection sort and attempts an organized swap.
 The experimental swap is based on the selection sort but uses a random
 alphabet key to swap letters. The selection swap doesn't work and the
 experimental swap may eventually become a permanent swap type. This is
-a test bed for ideas so there are many things that may change here.
+a test bed for ideas so there are many things that may change and new
+ideas will get introduced here. As an example, the current experimental
+swap reduces the swap loop counts significantly from the PRNG based
+loop counts.
 
 The third parameter turns on the shotgun loop and is limited by the number
 that follows it. This parameter is optional and if left off, it may still
-find a working key if your text is large enough.
+find a working key if your text is large enough. For a plaintext of about
+100 letters, a shotgun loop of around 5000 will produce an output file
+that is about 1.65Mb.
 
 The looplmt parameter forces the hill climb loop to exit when no better
 keys are found. You can speed up long searches by fine tuning this, but
-you'll find tha even at 10000 the program will generate keys very quickly.
+you'll find that even at 10000 the program will generate keys very quickly.
+You may want to look at the loop counts of a smaller trial to get an
+idea of how many loops are actually needed. Then double it so you are
+certain to get to the peak of every trial. Different swap patterns
+will produce different loop counts though the highest so far appears to be
+about 2500 for small texts.
 
 The infile is the path and file name of your ciphertext. The ciphertext
 does need to be in ASCII format and it converts upper or lower case letters.
@@ -82,5 +92,30 @@ letter alphabetic key. Each letter may only be used once. In the future,
 this may be cipher specific such as a 6x6 polybius square. You can use this
 to continue a search, but since the random number generator state is not
 saved, it would not be the same as a run without a break. Given the nature
-of random nunber generation, this may or may not affect any outcome.
+of pseudo random nunber generation, this may or may not affect any outcome.
 
+Output
+======
+For most users, the decrypt key, alphabet and encrypt key along with the
+plaintext are all that is important. The various numbers are included
+as indicators to the performance of the hill climber. Because of the
+speed of the program, you probably won't need to tweek the loop limits
+much at all. For large plaintexts with about 1000 or more letters, the
+hill climber will often find a solution on the first try. For small
+plaintexts of about 100 letters, you may need 100 or more trials before
+you find a valid decrypt. The hill climber algorithm will find many more
+false peaks before it finds the right one.
+
+The best, last and new scores are exctly that. For any given ciphertext
+size, you will have a range of peak scores that are possible. The bestscore
+will always represent the peak score, the last score is the previous peak
+score, and the new score is the most recent attempt score. Overall, these
+scores are relatively meaningless except they give you an idea of how
+good of a fit your possible plaintext is compared to English. Each
+ciphertext will have a unique range that is both dependent on the size
+and how well it compares with English.
+
+The loop counts are saved so it is possible to reduce the loop limit and
+save a little run time. A loop limit of 10000 is excessive when the
+typical loop count is around 1500. A more reasonable choice is 3000 and
+it saves you 7000 swap loops.
