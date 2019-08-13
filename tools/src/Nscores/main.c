@@ -3,6 +3,8 @@
 #include <math.h>
 #include "fgetst.h"
 
+#define NOCOMMENTS
+
 void Read1GrmTbl(void);
 void Read2GrmTbl(void);
 void Read3GrmTbl(void);
@@ -35,7 +37,7 @@ void Read1GrmTbl(void){
 	FILEST *f;
 	for(x=0;x<26;x++)fc[x]=0;
 	f=fopenst(50,"mngm.txt");
-	fprintf(fo,"mgs[26]={\n");
+	fprintf(fo,"int mgs[26]={\n");
 	while(feofst(f)!=1&&n<26){
 		if((l=fgetst(f))<=0){
 			printf("ERROR: Monogram file read failed.\n\n");
@@ -65,9 +67,15 @@ void Read1GrmTbl(void){
 	for(x=0;x<26;x++){
 		i=(int)((fc[x]*2)/n);
 		if(x!=25)
+#ifndef NOCOMMENTS
 			fprintf(fo,"%d, /*%c*/\n",i,x+65);
 		else
 			fprintf(fo,"%d}; /*%c*/\n",i,x+65);
+#else
+			fprintf(fo,"%d,\n",i);
+		else
+			fprintf(fo,"%d};\n",i);
+#endif
 	}
 	fclosest(f);
 }
@@ -83,7 +91,7 @@ void Read2GrmTbl(void){
 	FILEST *f;
 	
 	f=fopenst(50,"digm.txt");
-	fprintf(fo,"dgs[676]={\n");
+	fprintf(fo,"int dgs[676]={\n");
 	while(feofst(f)!=1&&n<676){
 		if((l=fgetst(f))<=0){
 			printf("ERROR: Digram file read failed.\n\n");
@@ -104,7 +112,11 @@ void Read2GrmTbl(void){
 		/* Get letters */
 		if(cnt<1)cnt=1;
 		lg=log(cnt);
+#ifndef NOCOMMENTS
 		fprintf(fo,"%d /*%c%c*/",(int)(lg*lg),buf[i],buf[i+1]);
+#else
+		fprintf(fo,"%d",(int)(lg*lg));
+#endif
 		n++;
 		if(n!=676)fprintf(fo,",\n");
 	}
@@ -122,7 +134,7 @@ void Read3GrmTbl(void){
 	double lg;
 	FILEST *f;
 	f=fopenst(50,"trgm.txt");
-		fprintf(fo,"tgs[17576]={\n");
+		fprintf(fo,"int tgs[17576]={\n");
 	while(feofst(f)!=1&&n<17576){
 		if((l=fgetst(f))<=0){
 			printf("ERROR: Trigram file read failed.\n\n");
@@ -143,7 +155,11 @@ void Read3GrmTbl(void){
 		/* Get letters */
 		if(cnt<1)cnt=1;
 		lg=log(cnt);
+#ifndef NOCOMMENTS
 		fprintf(fo,"%d /*%c%c%c*/",(int)(lg*lg),buf[i],buf[i+1],buf[i+2]);
+#else
+		fprintf(fo,"%d",(int)(lg*lg));
+#endif
 		n++;
 		if(n!=17576)fprintf(fo,",\n");
 	}
@@ -161,7 +177,7 @@ void Read4GrmTbl(void){
 	double lg;
 	FILEST *f;
 	f=fopenst(50,"qdgm.txt");
-		fprintf(fo,"qgs[6456976]={\n");
+		fprintf(fo,"int qgs[6456976]={\n");
 	while(feofst(f)!=1&&n<456976){
 		if((l=fgetst(f))<=0){
 			printf("ERROR: Quadgram file read failed.\n\n");
@@ -182,7 +198,11 @@ void Read4GrmTbl(void){
 		/* Get letters */
 		if(cnt<1)cnt=1;
 		lg=log(cnt*3);
+#ifndef NOCOMMENTS
 		fprintf(fo,"%d /*%c%c%c%c*/",(int)(lg*lg),buf[i],buf[i+1],buf[i+2],buf[i+3]);
+#else
+		fprintf(fo,"%d",(int)(lg*lg));
+#endif
 		n++;
 		if(n!=456976)fprintf(fo,",\n");
 	}
