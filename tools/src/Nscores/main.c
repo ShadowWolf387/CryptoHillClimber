@@ -177,7 +177,7 @@ void Read4GrmTbl(void){
 	double lg;
 	FILEST *f;
 	f=fopenst(50,"qdgm.txt");
-		fprintf(fo,"int qgs[6456976]={\n");
+		fprintf(fo,"int qgs[456976]={\n");
 	while(feofst(f)!=1&&n<456976){
 		if((l=fgetst(f))<=0){
 			printf("ERROR: Quadgram file read failed.\n\n");
