@@ -52,7 +52,7 @@ works faster or better than the quadgram scoring. The monogram score is
 not of much use but it is included because it doesn't take much space and
 it may be used to generate a starting key.
 
-The secont parameter is the type of letter swap. The random swap uses
+The second parameter is the type of letter swap. The random swap uses
 an additive fibonachi generator with a fairly long period. The selection
 swap is based on the selection sort and attempts an organized swap.
 The experimental swap is based on the selection sort but uses a random
